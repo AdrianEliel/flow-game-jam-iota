@@ -5,6 +5,8 @@ public partial class Main : Node2D
 {
 	PackedScene scene = GD.Load<PackedScene>("res://Scenes/testbox.tscn");
 	FastNoiseLite fastNoiseLite = new FastNoiseLite();
+	int layer = 0;
+	int levelspeed = 500;
 
 	public override void _Ready()
 	{
@@ -16,7 +18,7 @@ public partial class Main : Node2D
 	public override void _Process(double delta)
 	{
 		var Lpos = GetNode<Node2D>("Level").Position;
-		Lpos.X -= 500 * (float)delta;
+		Lpos.X -= levelspeed * (float)delta;
 		
 		
 		
@@ -36,7 +38,32 @@ public partial class Main : Node2D
 	public void On_Point_Add_Timeout(){
 		var Lpos = GetNode<Node2D>("Level").Position;
 		float noise1D = fastNoiseLite.GetNoise1D(Lpos.X);
-		GD.Print(noise1D);
-		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0-Lpos.X,noise1D * 500));
+		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(-Lpos.X,noise1D * 100 + layer*350));
+		var points = GetNode<Line2D>("Level/CurrentLine").Points;
+		if(points.Length > 1){
+			var linecoll = new CollisionShape2D();
+			GetNode<Area2D>("Level/CurrentLine/Area2D").AddChild(linecoll);
+			var rect = new RectangleShape2D();
+			linecoll.Position = (points[points.Length-2] + points[points.Length-1]) / 2;
+			linecoll.Rotation = points[points.Length-2].DirectionTo(points[points.Length-1]).Angle();
+			var length = points[points.Length-2].DistanceTo(points[points.Length-1]);
+			rect.Size = new Vector2(length, 100);
+			linecoll.Shape = rect;
+		}
+		
+		if (noise1D > 0.5 && layer < 1){
+			layer += 1;
+		}
+		if (noise1D < -0.5 && layer > -1){
+			layer -= 1;
+		}
+	}
+	
+	public void On_Area_2D_Body_Entered(Node2D body){
+		levelspeed = 1000;
+	}
+	
+	public void On_Area_2D_Body_Exited(Node2D body){
+		levelspeed = 500;
 	}
 }

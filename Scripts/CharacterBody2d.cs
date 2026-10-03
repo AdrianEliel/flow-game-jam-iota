@@ -3,7 +3,7 @@ using System;
 
 public partial class CharacterBody2d : CharacterBody2D
 {
-	public const float Speed = 900.0f;
+	public const float Speed = 600.0f;
 	public const float JumpVelocity = -400.0f;
 
 	public override void _PhysicsProcess(double delta)

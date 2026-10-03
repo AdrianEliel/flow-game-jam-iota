@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c6xdm7tjsfv2b" path="res://Scripts/Main.cs" id="1_8gbba"]
 [ext_resource type="Script" uid="uid://cxjbuh3oayuyc" path="res://Scripts/CharacterBody2d.cs" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://ds8rim25dpm7n" path="res://icon.svg" id="2_8gbba"]
+[ext_resource type="Texture2D" uid="uid://cmeku7yr6wwpe" path="res://map.png" id="2_jjvhh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
 size = Vector2(129, 136)
@@ -13,6 +14,11 @@ script = ExtResource("1_8gbba")
 [node name="Level" type="Node2D" parent="." unique_id=885161689]
 
 [node name="CurrentLine" type="Line2D" parent="Level" unique_id=1045373527]
+width = 100.0
+texture = ExtResource("2_jjvhh")
+texture_mode = 1
+
+[node name="Area2D" type="Area2D" parent="Level/CurrentLine" unique_id=1691420853]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1332495137]
 
@@ -32,8 +38,10 @@ wait_time = 3.0
 autostart = true
 
 [node name="PointAdd" type="Timer" parent="." unique_id=197726211]
-wait_time = 0.1
+wait_time = 0.4
 autostart = true
 
+[connection signal="body_entered" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Entered"]
+[connection signal="body_exited" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Exited"]
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
 [connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
