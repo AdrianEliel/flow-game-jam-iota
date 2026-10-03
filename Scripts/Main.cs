@@ -4,6 +4,8 @@ using System;
 public partial class Main : Node2D
 {
 	PackedScene scene = GD.Load<PackedScene>("res://Scenes/testbox.tscn");
+	FastNoiseLite fastNoiseLite = new FastNoiseLite();
+	//float noise1D = fastNoiseLite.GetNoise1D(123);
 
 	public override void _Ready()
 	{
@@ -15,7 +17,12 @@ public partial class Main : Node2D
 	{
 		var Lpos = GetNode<Node2D>("Level").Position;
 		Lpos.X -= 500 * (float)delta;
+		
+		
+		
 		GetNode<Node2D>("Level").Position = Lpos;
+		
+		
 	}
 	
 	public void On_Testboxspawn_Timeout(){
@@ -24,5 +31,10 @@ public partial class Main : Node2D
 		var temppos = ((Node2D)instance).GlobalPosition;
 		temppos.X = 0;
 		((Node2D)instance).GlobalPosition = temppos;
+	}
+	
+	public void On_Point_Add_Timeout(){
+		GD.Print("A");
+		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0,0+GetNode<Node2D>("Level").Position.X));
 	}
 }

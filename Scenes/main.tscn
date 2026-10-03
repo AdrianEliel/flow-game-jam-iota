@@ -12,6 +12,8 @@ script = ExtResource("1_8gbba")
 
 [node name="Level" type="Node2D" parent="." unique_id=885161689]
 
+[node name="CurrentLine" type="Line2D" parent="Level" unique_id=1045373527]
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1332495137]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2028630244]
@@ -29,4 +31,8 @@ shape = SubResource("RectangleShape2D_jjvhh")
 wait_time = 3.0
 autostart = true
 
+[node name="PointAdd" type="Timer" parent="." unique_id=197726211]
+autostart = true
+
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
+[connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
