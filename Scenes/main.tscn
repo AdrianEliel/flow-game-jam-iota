@@ -1,8 +1,32 @@
 [gd_scene format=3 uid="uid://comdnnl4pbkmh"]
 
-[ext_resource type="PackedScene" uid="uid://dx8gx4hs2v65s" path="res://Scenes/player.tscn" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://c6xdm7tjsfv2b" path="res://Scripts/Main.cs" id="1_8gbba"]
+[ext_resource type="Script" uid="uid://cxjbuh3oayuyc" path="res://Scripts/CharacterBody2d.cs" id="1_bo1nx"]
+[ext_resource type="Texture2D" uid="uid://ds8rim25dpm7n" path="res://icon.svg" id="2_8gbba"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
+size = Vector2(129, 136)
 
 [node name="Main" type="Node2D" unique_id=1816209013]
+script = ExtResource("1_8gbba")
 
-[node name="Player" parent="." unique_id=1439647565 instance=ExtResource("1_jjgbg")]
-position = Vector2(499, 227)
+[node name="Level" type="Node2D" parent="." unique_id=885161689]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1332495137]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2028630244]
+position = Vector2(-474, 0)
+script = ExtResource("1_bo1nx")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=33903315]
+texture = ExtResource("2_8gbba")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1782423233]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_jjvhh")
+
+[node name="testboxspawn" type="Timer" parent="." unique_id=1745306953]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
