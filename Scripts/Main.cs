@@ -38,7 +38,7 @@ public partial class Main : Node2D
 	public void On_Point_Add_Timeout(){
 		var Lpos = GetNode<Node2D>("Level").Position;
 		float noise1D = fastNoiseLite.GetNoise1D(Lpos.X);
-		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(-Lpos.X,noise1D * 100 + layer*350));
+		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(-Lpos.X+1500,noise1D * 100 + layer*350));
 		var points = GetNode<Line2D>("Level/CurrentLine").Points;
 		if(points.Length > 1){
 			var linecoll = new CollisionShape2D();
