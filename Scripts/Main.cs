@@ -5,11 +5,11 @@ public partial class Main : Node2D
 {
 	PackedScene scene = GD.Load<PackedScene>("res://Scenes/testbox.tscn");
 	FastNoiseLite fastNoiseLite = new FastNoiseLite();
-	//float noise1D = fastNoiseLite.GetNoise1D(123);
 
 	public override void _Ready()
 	{
-		
+		fastNoiseLite.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
+		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0,0));
 	}
 
 
@@ -34,7 +34,9 @@ public partial class Main : Node2D
 	}
 	
 	public void On_Point_Add_Timeout(){
-		GD.Print("A");
-		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0,0+GetNode<Node2D>("Level").Position.X));
+		var Lpos = GetNode<Node2D>("Level").Position;
+		float noise1D = fastNoiseLite.GetNoise1D(Lpos.X);
+		GD.Print(noise1D);
+		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0-Lpos.X,noise1D * 500));
 	}
 }

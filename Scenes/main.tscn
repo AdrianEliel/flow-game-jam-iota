@@ -32,6 +32,7 @@ wait_time = 3.0
 autostart = true
 
 [node name="PointAdd" type="Timer" parent="." unique_id=197726211]
+wait_time = 0.1
 autostart = true
 
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
