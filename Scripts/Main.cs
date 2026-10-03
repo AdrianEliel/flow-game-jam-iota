@@ -6,7 +6,9 @@ public partial class Main : Node2D
 	PackedScene scene = GD.Load<PackedScene>("res://Scenes/testbox.tscn");
 	FastNoiseLite fastNoiseLite = new FastNoiseLite();
 	int layer = 0;
-	int levelspeed = 500;
+	float levelspeed = 500;
+	int speedgoal = 500;
+	int levelaccel = 600;
 
 	public override void _Ready()
 	{
@@ -18,6 +20,12 @@ public partial class Main : Node2D
 	public override void _Process(double delta)
 	{
 		var Lpos = GetNode<Node2D>("Level").Position;
+		if (levelspeed < speedgoal){
+			levelspeed += levelaccel * (float)delta;
+		}
+		if (levelspeed > speedgoal){
+			levelspeed -= levelaccel * (float)delta;
+		}
 		Lpos.X -= levelspeed * (float)delta;
 		
 		
@@ -60,10 +68,10 @@ public partial class Main : Node2D
 	}
 	
 	public void On_Area_2D_Body_Entered(Node2D body){
-		levelspeed = 1000;
+		speedgoal = 1500;
 	}
 	
 	public void On_Area_2D_Body_Exited(Node2D body){
-		levelspeed = 500;
+		speedgoal = 500;
 	}
 }
