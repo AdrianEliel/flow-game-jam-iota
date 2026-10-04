@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://c6xdm7tjsfv2b" path="res://Scripts/Main.cs" id="1_8gbba"]
 [ext_resource type="Script" uid="uid://cxjbuh3oayuyc" path="res://Scripts/CharacterBody2d.cs" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://bh234m55u8n2f" path="res://current.png" id="2_jjvhh"]
-[ext_resource type="Texture2D" uid="uid://r2yoa5lmly7e" path="res://sea1.png" id="2_kry3j"]
+[ext_resource type="Texture2D" uid="uid://b0by76mwoadxp" path="res://ocean1.png" id="2_kry3j"]
+[ext_resource type="Texture2D" uid="uid://81fooir7fd0h" path="res://sky1.png" id="3_21xkr"]
 [ext_resource type="Texture2D" uid="uid://c3ph2f1b8ka1m" path="res://sub.png" id="4_jjvhh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
@@ -18,7 +19,10 @@ script = ExtResource("1_8gbba")
 scroll_offset = Vector2(1000, 0)
 repeat_size = Vector2(1920, 0)
 autoscroll = Vector2(200, 0)
-repeat_times = 20
+repeat_times = 2000
+
+[node name="Sprite2D2" type="Sprite2D" parent="Level/Parallax2D" unique_id=1623218867]
+texture = ExtResource("3_21xkr")
 
 [node name="Sprite2D" type="Sprite2D" parent="Level/Parallax2D" unique_id=614504021]
 texture = ExtResource("2_kry3j")

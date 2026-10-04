@@ -71,7 +71,7 @@ public partial class Main : Node2D
 		}
 		
 		for (int i = 0; i < points.Length; i++){
-			if (points[i].X<-Lpos.X-2000){
+			if (points[i].X<-Lpos.X-2500){
 				GetNode<Line2D>("Level/CurrentLine").RemovePoint(i);
 			}
 		}
