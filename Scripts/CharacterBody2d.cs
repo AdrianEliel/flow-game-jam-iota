@@ -25,6 +25,16 @@ public partial class CharacterBody2d : CharacterBody2D
 		{
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
+		
+		if (direction > 0){
+			GetNode<Sprite2D>("Sprite2D").Rotation = 0.5f;
+		}
+		else if (direction < 0){
+			GetNode<Sprite2D>("Sprite2D").Rotation = -0.5f;
+		}
+		else{
+			GetNode<Sprite2D>("Sprite2D").Rotation = 0;
+		}
 
 		Velocity = velocity;
 		MoveAndSlide();

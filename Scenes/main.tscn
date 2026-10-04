@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c6xdm7tjsfv2b" path="res://Scripts/Main.cs" id="1_8gbba"]
 [ext_resource type="Script" uid="uid://cxjbuh3oayuyc" path="res://Scripts/CharacterBody2d.cs" id="1_bo1nx"]
-[ext_resource type="Texture2D" uid="uid://ds8rim25dpm7n" path="res://icon.svg" id="2_8gbba"]
-[ext_resource type="Texture2D" uid="uid://cmeku7yr6wwpe" path="res://map.png" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://bh234m55u8n2f" path="res://current.png" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://c3ph2f1b8ka1m" path="res://sub.png" id="4_jjvhh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
-size = Vector2(129, 136)
+size = Vector2(99, 49)
 
 [node name="Main" type="Node2D" unique_id=1816209013]
 script = ExtResource("1_8gbba")
@@ -14,9 +14,9 @@ script = ExtResource("1_8gbba")
 [node name="Level" type="Node2D" parent="." unique_id=885161689]
 
 [node name="CurrentLine" type="Line2D" parent="Level" unique_id=1045373527]
-width = 100.0
+width = 500.0
 texture = ExtResource("2_jjvhh")
-texture_mode = 1
+texture_mode = 2
 
 [node name="Area2D" type="Area2D" parent="Level/CurrentLine" unique_id=1691420853]
 
@@ -27,10 +27,10 @@ position = Vector2(-474, 0)
 script = ExtResource("1_bo1nx")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=33903315]
-texture = ExtResource("2_8gbba")
+texture = ExtResource("4_jjvhh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1782423233]
-position = Vector2(0.5, 1)
+position = Vector2(-6.5, 20.5)
 shape = SubResource("RectangleShape2D_jjvhh")
 
 [node name="testboxspawn" type="Timer" parent="." unique_id=1745306953]
@@ -41,7 +41,12 @@ autostart = true
 wait_time = 0.4
 autostart = true
 
+[node name="Decelbuffer" type="Timer" parent="." unique_id=2088843488]
+wait_time = 0.4
+one_shot = true
+
 [connection signal="body_entered" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Entered"]
 [connection signal="body_exited" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Exited"]
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
 [connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
+[connection signal="timeout" from="Decelbuffer" to="." method="On_Decelbuffer_Timeout"]

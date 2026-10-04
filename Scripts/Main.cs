@@ -9,6 +9,7 @@ public partial class Main : Node2D
 	float levelspeed = 500;
 	int speedgoal = 500;
 	int levelaccel = 600;
+	bool Decelcase = false;
 
 	public override void _Ready()
 	{
@@ -53,9 +54,12 @@ public partial class Main : Node2D
 			GetNode<Area2D>("Level/CurrentLine/Area2D").AddChild(linecoll);
 			var rect = new RectangleShape2D();
 			linecoll.Position = (points[points.Length-2] + points[points.Length-1]) / 2;
+			var pos = linecoll.Position;
+			pos.Y += 75;
+			linecoll.Position = pos;
 			linecoll.Rotation = points[points.Length-2].DirectionTo(points[points.Length-1]).Angle();
 			var length = points[points.Length-2].DistanceTo(points[points.Length-1]);
-			rect.Size = new Vector2(length, 100);
+			rect.Size = new Vector2(length, 160);
 			linecoll.Shape = rect;
 		}
 		
@@ -65,13 +69,32 @@ public partial class Main : Node2D
 		if (noise1D < -0.5 && layer > -1){
 			layer -= 1;
 		}
+		
+		for (int i = 0; i < points.Length; i++){
+			if (points[i].X<-Lpos.X-2000){
+				GetNode<Line2D>("Level/CurrentLine").RemovePoint(i);
+			}
+		}
+	}
+	
+	public void On_Decelbuffer_Timeout(){
+		if (Decelcase){
+			speedgoal = 500;
+		}
+		Decelcase = false;
+		//Tween tween = GetTree().CreateTween();
+		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1f,1f), 1f);
 	}
 	
 	public void On_Area_2D_Body_Entered(Node2D body){
 		speedgoal = 1500;
+		Decelcase = false;
+		//Tween tween = GetTree().CreateTween();
+		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1.05f,1.05f), 0.1f);
 	}
 	
 	public void On_Area_2D_Body_Exited(Node2D body){
-		speedgoal = 500;
+		GetNode<Timer>("Decelbuffer").Start();
+		Decelcase = true;
 	}
 }
