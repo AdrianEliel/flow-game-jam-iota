@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dbtbgn3lm1j52"]
 
 [node name="testbox" type="Node2D" unique_id=1167425772]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1117963692]
 offset_right = 40.0
