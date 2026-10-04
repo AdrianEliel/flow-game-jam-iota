@@ -10,6 +10,8 @@ public partial class Main : Node2D
 	int speedgoal = 500;
 	int levelaccel = 600;
 	bool Decelcase = false;
+	bool forwardmonster = false;
+	bool monsterin = true;
 
 	public override void _Ready()
 	{
@@ -33,7 +35,28 @@ public partial class Main : Node2D
 		
 		GetNode<Node2D>("Level").Position = Lpos;
 		
+		var monsterpos = GetNode<Sprite2D>("monstertotal/seamonster").Position;
 		
+		if (forwardmonster && monsterpos.X < -20){
+			monsterpos.X += 300 * (float)delta;
+		}
+		if (!forwardmonster && monsterpos.X > -300){
+			monsterpos.X -= 300 * (float)delta;
+		}
+		
+		GetNode<Sprite2D>("monstertotal/seamonster").Position = monsterpos;
+		
+		var monsterpos2 = GetNode<Node2D>("monstertotal").Position;
+		
+		if (monsterin && monsterpos2.X < 0){
+			monsterpos2.X += 600 * (float)delta;
+		}
+		if (!monsterin && monsterpos2.X > -1000){
+			monsterpos2.X -= 600 * (float)delta;
+		}
+		
+		GetNode<Node2D>("monstertotal").Position = monsterpos2;
+				
 	}
 	
 	public void On_Testboxspawn_Timeout(){
@@ -80,15 +103,26 @@ public partial class Main : Node2D
 	public void On_Decelbuffer_Timeout(){
 		if (Decelcase){
 			speedgoal = 500;
+			monsterin = true;
 		}
 		Decelcase = false;
 		//Tween tween = GetTree().CreateTween();
 		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1f,1f), 1f);
 	}
 	
+	public void _on_monsteranim_timeout(){
+		if (forwardmonster){
+			forwardmonster = false;
+		}
+		else {
+			forwardmonster = true;
+		}
+	}
+	
 	public void On_Area_2D_Body_Entered(Node2D body){
 		speedgoal = 1500;
 		Decelcase = false;
+		monsterin = false;
 		//Tween tween = GetTree().CreateTween();
 		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1.05f,1.05f), 0.1f);
 	}

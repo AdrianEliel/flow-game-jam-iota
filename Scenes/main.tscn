@@ -5,7 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bh234m55u8n2f" path="res://current.png" id="2_jjvhh"]
 [ext_resource type="Texture2D" uid="uid://b0by76mwoadxp" path="res://ocean1.png" id="2_kry3j"]
 [ext_resource type="Texture2D" uid="uid://81fooir7fd0h" path="res://sky1.png" id="3_21xkr"]
-[ext_resource type="Texture2D" uid="uid://c3ph2f1b8ka1m" path="res://sub.png" id="4_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://xodynkk21j0t" path="res://seamonster.png" id="5_6bp64"]
+[ext_resource type="Texture2D" uid="uid://cbixlaybd28o6" path="res://sub2.png" id="6_21xkr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
 size = Vector2(99, 49)
@@ -41,7 +42,7 @@ position = Vector2(-474, 0)
 script = ExtResource("1_bo1nx")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=33903315]
-texture = ExtResource("4_jjvhh")
+texture = ExtResource("6_21xkr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1782423233]
 position = Vector2(-6.5, 20.5)
@@ -59,8 +60,17 @@ autostart = true
 wait_time = 0.4
 one_shot = true
 
+[node name="monstertotal" type="Node2D" parent="." unique_id=226795982]
+
+[node name="seamonster" type="Sprite2D" parent="monstertotal" unique_id=1334578633]
+texture = ExtResource("5_6bp64")
+
+[node name="monsteranim" type="Timer" parent="." unique_id=837025181]
+autostart = true
+
 [connection signal="body_entered" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Entered"]
 [connection signal="body_exited" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Exited"]
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
 [connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
 [connection signal="timeout" from="Decelbuffer" to="." method="On_Decelbuffer_Timeout"]
+[connection signal="timeout" from="monsteranim" to="." method="_on_monsteranim_timeout"]

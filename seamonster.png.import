@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ph2f1b8ka1m"
-path="res://.godot/imported/sub.png-f0643aa87c35e4aeba945b6d13465881.ctex"
+uid="uid://xodynkk21j0t"
+path="res://.godot/imported/seamonster.png-88d818bf6f584716c74a968122b3907c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sub.png"
-dest_files=["res://.godot/imported/sub.png-f0643aa87c35e4aeba945b6d13465881.ctex"]
+source_file="res://seamonster.png"
+dest_files=["res://.godot/imported/seamonster.png-88d818bf6f584716c74a968122b3907c.ctex"]
 
 [params]
 
