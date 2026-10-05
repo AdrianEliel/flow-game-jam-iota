@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://dbtbgn3lm1j52"]
 
-[node name="testbox" type="Node2D" unique_id=1167425772]
-visible = false
+[ext_resource type="Texture2D" uid="uid://c0oys30upyupc" path="res://puff.png" id="1_vgqto"]
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1117963692]
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0.3137255, 1, 1, 1)
+[node name="testbox" type="Node2D" unique_id=1167425772]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1406632444]
+texture = ExtResource("1_vgqto")

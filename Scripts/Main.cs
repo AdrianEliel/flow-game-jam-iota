@@ -4,6 +4,7 @@ using System;
 public partial class Main : Node2D
 {
 	PackedScene scene = GD.Load<PackedScene>("res://Scenes/testbox.tscn");
+	PackedScene coins = GD.Load<PackedScene>("res://Scenes/coin.tscn");
 	FastNoiseLite fastNoiseLite = new FastNoiseLite();
 	int layer = 0;
 	float levelspeed = 500;
@@ -63,7 +64,19 @@ public partial class Main : Node2D
 		var instance = scene.Instantiate();
 		GetNode<Node2D>("Level").AddChild(instance);
 		var temppos = ((Node2D)instance).GlobalPosition;
-		temppos.X = 0;
+		temppos.X = 2000;
+		Random rnd = new Random();
+		temppos.Y = rnd.Next(-400, 400);
+		((Node2D)instance).GlobalPosition = temppos;
+	}
+	
+	public void _on_coinspawn_timeout(){
+		var instance = coins.Instantiate();
+		GetNode<Node2D>("Level").AddChild(instance);
+		var temppos = ((Node2D)instance).GlobalPosition;
+		temppos.X = 2000;
+		Random rnd = new Random();
+		temppos.Y = rnd.Next(-400, 400);
 		((Node2D)instance).GlobalPosition = temppos;
 	}
 	
@@ -86,10 +99,10 @@ public partial class Main : Node2D
 			linecoll.Shape = rect;
 		}
 		
-		if (noise1D > 0.5 && layer < 1){
+		if (noise1D > 0.3 && layer < 1){
 			layer += 1;
 		}
-		if (noise1D < -0.5 && layer > -1){
+		if (noise1D < -0.3 && layer > -1){
 			layer -= 1;
 		}
 		

@@ -49,7 +49,6 @@ position = Vector2(-6.5, 20.5)
 shape = SubResource("RectangleShape2D_jjvhh")
 
 [node name="testboxspawn" type="Timer" parent="." unique_id=1745306953]
-wait_time = 3.0
 autostart = true
 
 [node name="PointAdd" type="Timer" parent="." unique_id=197726211]
@@ -68,9 +67,14 @@ texture = ExtResource("5_6bp64")
 [node name="monsteranim" type="Timer" parent="." unique_id=837025181]
 autostart = true
 
+[node name="coinspawn" type="Timer" parent="." unique_id=1133505436]
+wait_time = 1.7999999999999998
+autostart = true
+
 [connection signal="body_entered" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Entered"]
 [connection signal="body_exited" from="Level/CurrentLine/Area2D" to="." method="On_Area_2D_Body_Exited"]
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
 [connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
 [connection signal="timeout" from="Decelbuffer" to="." method="On_Decelbuffer_Timeout"]
 [connection signal="timeout" from="monsteranim" to="." method="_on_monsteranim_timeout"]
+[connection signal="timeout" from="coinspawn" to="." method="_on_coinspawn_timeout"]
