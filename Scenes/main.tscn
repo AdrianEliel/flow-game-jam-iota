@@ -7,12 +7,17 @@
 [ext_resource type="Texture2D" uid="uid://81fooir7fd0h" path="res://sky1.png" id="3_21xkr"]
 [ext_resource type="Texture2D" uid="uid://xodynkk21j0t" path="res://seamonster.png" id="5_6bp64"]
 [ext_resource type="Texture2D" uid="uid://cbixlaybd28o6" path="res://sub2.png" id="6_21xkr"]
+[ext_resource type="Script" uid="uid://dvjfw4lbqljgl" path="res://Scripts/PlayerInteraction.cs" id="8_interaction"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jjvhh"]
 size = Vector2(99, 49)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xon5"]
+size = Vector2(633, 1079)
+
 [node name="Main" type="Node2D" unique_id=1816209013]
 script = ExtResource("1_8gbba")
+MonsterSpeed = 1400.0
 
 [node name="Level" type="Node2D" parent="." unique_id=885161689]
 
@@ -34,11 +39,13 @@ texture = ExtResource("2_jjvhh")
 texture_mode = 2
 
 [node name="Area2D" type="Area2D" parent="Level/CurrentLine" unique_id=1691420853]
+collision_layer = 0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1332495137]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2028630244]
 position = Vector2(-474, 0)
+collision_mask = 0
 script = ExtResource("1_bo1nx")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=33903315]
@@ -64,8 +71,14 @@ one_shot = true
 [node name="seamonster" type="Sprite2D" parent="monstertotal" unique_id=1334578633]
 texture = ExtResource("5_6bp64")
 
-[node name="monsteranim" type="Timer" parent="." unique_id=837025181]
-autostart = true
+[node name="DamageArea" type="Area2D" parent="monstertotal/seamonster" unique_id=2046925584]
+collision_layer = 0
+script = ExtResource("8_interaction")
+Kind = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="monstertotal/seamonster/DamageArea" unique_id=950025443]
+position = Vector2(-869.5, 1.5)
+shape = SubResource("RectangleShape2D_8xon5")
 
 [node name="coinspawn" type="Timer" parent="." unique_id=1133505436]
 wait_time = 1.7999999999999998
@@ -76,5 +89,4 @@ autostart = true
 [connection signal="timeout" from="testboxspawn" to="." method="On_Testboxspawn_Timeout"]
 [connection signal="timeout" from="PointAdd" to="." method="On_Point_Add_Timeout"]
 [connection signal="timeout" from="Decelbuffer" to="." method="On_Decelbuffer_Timeout"]
-[connection signal="timeout" from="monsteranim" to="." method="_on_monsteranim_timeout"]
 [connection signal="timeout" from="coinspawn" to="." method="_on_coinspawn_timeout"]

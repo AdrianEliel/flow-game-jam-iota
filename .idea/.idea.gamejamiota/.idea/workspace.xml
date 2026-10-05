@@ -10,7 +10,15 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51a42031-1554-4f1a-8993-66404f7a76a1" name="Changes" comment="" />
+    <list default="true" id="51a42031-1554-4f1a-8993-66404f7a76a1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.gamejamiota/.idea/libraries/GdSdk.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.gamejamiota/.idea/libraries/GdSdk.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.gamejamiota/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.gamejamiota/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scenes/coin.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/Scenes/coin.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scenes/main.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/Scenes/main.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scenes/testbox.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/Scenes/testbox.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/CharacterBody2d.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/CharacterBody2d.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Main.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,10 +27,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3KF4ZKwuZDAjyo2dX6ZR8WjEaX0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -30,6 +38,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -44,7 +53,8 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#"
   }
 }]]></component>
   <component name="RunManager" selected="GDScript Start and Debug.Player GDScript">
@@ -123,5 +133,9 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

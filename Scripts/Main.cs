@@ -7,57 +7,77 @@ public partial class Main : Node2D
 	PackedScene coins = GD.Load<PackedScene>("res://Scenes/coin.tscn");
 	FastNoiseLite fastNoiseLite = new FastNoiseLite();
 	int layer = 0;
-	float levelspeed = 500;
-	int speedgoal = 500;
+	[Export] public float CruiseSpeed { get; set; } = 1300;
+	[Export] public float FlowSpeed { get; set; } = 1600;
+	[Export] public float MonsterSpeed { get; set; } = 1480;
+	[Export] public float StartingMonsterOffset { get; set; } = -400;
+	[Export] public float MonsterScreenLimit { get; set; } = 0;
+	float chaseOffset;
+	float cameraLead;
+	float playerRestX;
+	float levelspeed;
+	float speedgoal;
 	int levelaccel = 600;
 	bool Decelcase = false;
-	bool forwardmonster = false;
-	bool monsterin = true;
+	CharacterBody2d player;
+	Label status;
+
+	public override void _UnhandledKeyInput(InputEvent @event)
+	{
+		if (player.IsDead && @event is InputEventKey key && key.Pressed && !key.Echo && key.PhysicalKeycode == Key.R)
+			GetTree().ReloadCurrentScene();
+	}
 
 	public override void _Ready()
 	{
+		player = GetNode<CharacterBody2d>("CharacterBody2D");
+		levelspeed = speedgoal = CruiseSpeed;
+		playerRestX = player.Position.X;
+		chaseOffset = StartingMonsterOffset;
+		cameraLead = Mathf.Max(0, chaseOffset - MonsterScreenLimit);
+		player.Position = new Vector2(playerRestX - cameraLead, player.Position.Y);
+		GetNode<Node2D>("monstertotal").Position = new Vector2(chaseOffset - cameraLead, 0);
+		var hud = new CanvasLayer();
+		AddChild(hud);
+		status = new Label { Position = new Vector2(24, 24) };
+		status.AddThemeFontSizeOverride("font_size", 32);
+		hud.AddChild(status);
 		fastNoiseLite.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
 		GetNode<Line2D>("Level/CurrentLine").AddPoint(new Vector2(0,0));
 	}
 
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
+		status.Text = $"Health: {player.Health}/{player.MaxHealth}    Coins: {player.Coins}";
+		if (player.IsDead)
+		{
+			status.Text += "    Game over — press R to restart";
+			foreach (var child in GetChildren())
+				if (child is Timer timer) timer.Stop();
+			return;
+		}
+		if (player.IsSlowed) status.Text += "    Slowed!";
 		var Lpos = GetNode<Node2D>("Level").Position;
-		if (levelspeed < speedgoal){
-			levelspeed += levelaccel * (float)delta;
-		}
-		if (levelspeed > speedgoal){
-			levelspeed -= levelaccel * (float)delta;
-		}
-		Lpos.X -= levelspeed * (float)delta;
-		
-		
-		
+		float targetSpeed = speedgoal * (player.IsSlowed ? player.SlowMultiplier : 1);
+		levelspeed = Mathf.MoveToward(levelspeed, targetSpeed, levelaccel * (float)delta);
+		// Keep the chase in world space, but let the camera advance with the
+		// monster once it reaches the left-side framing limit. The sub then
+		// falls back instead of the monster crossing the middle of the screen.
+		chaseOffset += (MonsterSpeed - levelspeed) * (float)delta;
+		float nextLead = Mathf.Max(0, chaseOffset - MonsterScreenLimit);
+		Lpos.X -= levelspeed * (float)delta + nextLead - cameraLead;
+		cameraLead = nextLead;
 		GetNode<Node2D>("Level").Position = Lpos;
-		
-		var monsterpos = GetNode<Sprite2D>("monstertotal/seamonster").Position;
-		
-		if (forwardmonster && monsterpos.X < -20){
-			monsterpos.X += 300 * (float)delta;
-		}
-		if (!forwardmonster && monsterpos.X > -300){
-			monsterpos.X -= 300 * (float)delta;
-		}
-		
-		GetNode<Sprite2D>("monstertotal/seamonster").Position = monsterpos;
-		
-		var monsterpos2 = GetNode<Node2D>("monstertotal").Position;
-		
-		if (monsterin && monsterpos2.X < 0){
-			monsterpos2.X += 600 * (float)delta;
-		}
-		if (!monsterin && monsterpos2.X > -1000){
-			monsterpos2.X -= 600 * (float)delta;
-		}
-		
-		GetNode<Node2D>("monstertotal").Position = monsterpos2;
-				
+		GetNode<Node2D>("monstertotal").Position = new Vector2(chaseOffset - cameraLead, 0);
+		player.Position = new Vector2(playerRestX - cameraLead, player.Position.Y);
+
+		// Once overtaken offscreen, leaving the finite monster polygon must
+		// not make the submarine safe again. TakeDamage preserves its cooldown.
+		var camera = GetNode<Camera2D>("Camera2D");
+		float leftEdge = camera.Position.X - GetViewportRect().Size.X / (2 * camera.Zoom.X);
+		if (player.Position.X + 64 < leftEdge) player.TakeDamage();
+
 	}
 	
 	public void On_Testboxspawn_Timeout(){
@@ -115,33 +135,27 @@ public partial class Main : Node2D
 	
 	public void On_Decelbuffer_Timeout(){
 		if (Decelcase){
-			speedgoal = 500;
-			monsterin = true;
+			speedgoal = CruiseSpeed;
 		}
 		Decelcase = false;
 		//Tween tween = GetTree().CreateTween();
 		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1f,1f), 1f);
 	}
 	
-	public void _on_monsteranim_timeout(){
-		if (forwardmonster){
-			forwardmonster = false;
-		}
-		else {
-			forwardmonster = true;
-		}
-	}
-	
 	public void On_Area_2D_Body_Entered(Node2D body){
-		speedgoal = 1500;
+		if (body != player || player.IsDead) return;
+		speedgoal = FlowSpeed;
 		Decelcase = false;
-		monsterin = false;
+		GetNode<Timer>("Decelbuffer").Stop();
 		//Tween tween = GetTree().CreateTween();
 		//tween.TweenProperty(GetNode("Camera2D"), "zoom", new Vector2(1.05f,1.05f), 0.1f);
 	}
 	
 	public void On_Area_2D_Body_Exited(Node2D body){
-		GetNode<Timer>("Decelbuffer").Start();
+		if (body != player || player.IsDead) return;
+		var buffer = GetNode<Timer>("Decelbuffer");
+		if (!buffer.IsInsideTree()) return;
+		buffer.Start();
 		Decelcase = true;
 	}
 }

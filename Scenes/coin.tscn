@@ -2,7 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://ca5ryqvqksif1" path="res://coin.png" id="1_d5gmh"]
 
-[node name="testbox" type="Node2D" unique_id=1167425772]
+[ext_resource type="Script" path="res://Scripts/PlayerInteraction.cs" id="2_interaction"]
+
+[sub_resource type="CircleShape2D" id="Circle_hit"]
+radius = 42.0
+
+[node name="Coin" type="Area2D" unique_id=1167425772]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("2_interaction")
+Kind = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1406632444]
 texture = ExtResource("1_d5gmh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Circle_hit")
